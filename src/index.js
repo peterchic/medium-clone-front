@@ -1,46 +1,22 @@
 import ReactDOM from 'react-dom';
+import App from './App'
 import React from 'react';
+import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 
-const defaultState = { checked: false }
+const defaultState = {
+  appName: 'conduit',
+  articles: null
+}
 
 const reducer = function( state = defaultState, action) {
-  switch (action.type) {
-    case 'TOGGLE':
-      return { ...state, checked: !state.checked }
-  }
   return state
 }
 
 const store = createStore(reducer)
 
-class App extends React.Component {
-  cosntructor(){
-    super()
-    this.state = {}
-  }
-
-  componentWillMount(){
-    store.subscribe(() => this.setState(store.getState()))
-  }
-
-  render() {
-    return (
-      <div>
-        <h1>Listy</h1>
-        <div>
-          Learn Some Magix%nbsp
-          <input
-            type="checked"
-            checked= { !!this.state.checked}
-          />
-        </div>
-        { this.state.checked ? (<h2>Done!</h2>) : null }
-      </div>
-    );
-  }
-}
-
 ReactDOM.render((
-  <App />
+  <Provider store={store}>
+    <App />
+  </Provider>
 ), document.getElementById('root'));
