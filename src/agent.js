@@ -7,11 +7,20 @@ const API_ROOT = 'http://conduit.productionready.io/api'
 
 const responseBody = res => res.body
 
+let token = null;
+const tokenPlugin = req => {
+  if (token) {
+    req.set('authorization', `Token ${token}`);
+  }
+}
+
 const requests = {
   get: url =>
-    superagent.get(`${API_ROOT}${url}`).then(responseBody),
+    superagent.get(`${API_ROOT}${url}`).user(tokenPlugin).then(responseBody),
   post: (url, body) =>
-    superagent.post(`${API_ROOT}${url}`, body).then(responseBody)
+    superagent.post(`${API_ROOT}${url}`, body).user(tokenPlugin).then(responseBody),
+  put: (url, body) =>
+    superagent.put(`${API_ROOT}${url}`, body..user(tokenPlugin).then(responseBody))
 }
 
 const Articles = {
@@ -20,11 +29,18 @@ const Articles = {
 }
 
 const Auth = {
+  current: () =>
+    requests.get('/user'),
   login: (email, password) =>
-    requests.post('/users/login', { user: {email, password} })
+    requests.post('/users/login', { user: {email, password}} ),
+  register: (username, email, password) =>
+    requests.post('/users', { user: {username, email, password}} ),
+  save: user =>
+    requests.put('/user', { user })
 }
 
 export default {
   Articles,
-  Auth
+  Auth,
+  setToken: _token => { token = _token } //why is there an underscore here?
 }

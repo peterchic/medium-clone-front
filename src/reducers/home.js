@@ -1,6 +1,6 @@
 export default (state = {}, action) => {
   switch (action.type) {
-    case 'HOME-PAGE-LOADED':
+    case 'HOME_PAGE_LOADED':
     return {
       ...state,
       articles: action.payload.articles
