@@ -1,8 +1,8 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import ListErrors from './ListErrors'
 import agent from '../agent'
-import {Link} from 'react-router'
+import { Link } from 'react-router'
 
 const mapStateToProps = state => ({...state.auth})
 
@@ -22,7 +22,6 @@ const mapDispatchToProps = dispatch => ({
 class Register extends Component {
   constructor(){
     super()
-
     this.changeEmail = e => this.props.onChangeEmail(e.target.value)
     this.changePassword = e => this.props.onChangePassword(e.target.value)
     this.changeUsername = e => this.props.onChangeUsername(e.target.value)
