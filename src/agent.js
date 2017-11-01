@@ -20,12 +20,18 @@ const requests = {
   post: (url, body) =>
     superagent.post(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody),
   put: (url, body) =>
-    superagent.put(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody)
+    superagent.put(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody),
+  del: url =>
+    superagent.del(`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody)
 }
 
 const Articles = {
   all: page =>
-  requests.get('/articles?limit=10')
+    requests.get('/articles?limit=10'),
+  get: slug =>
+    requests.get(`/articles/${slug}`),
+  del: slug =>
+    requests.del(`/articles/${slug}`)
 }
 
 const Auth = {
@@ -39,8 +45,18 @@ const Auth = {
     requests.put('/user', { user })
 }
 
+const Comments = {
+  delete: (slug, commentId) =>
+    requests.del(`/articles/${slug}/comments/${commentId}`),
+  create: (slug, comment) =>
+    requests.post(`/articles/${slug}/comments`, { comment }), //unclear how this is working { comment }
+  forArticle: slug =>
+    requests.get(`/articles/${slug}/comments`)
+}
+
 export default {
   Articles,
   Auth,
-  setToken: _token => { token = _token } //why is there an underscore here?
+  Comments,
+  setToken: _token => { token = _token }
 }
