@@ -29,7 +29,7 @@ const Articles = {
   all: page =>
     requests.get('/articles?limit=10'),
   byAuthor: (author, page) => //what's the point of page here?
-    requests.get(`/articles?author=${encodeURIComponent(author)}`),
+    requests.get(`/articles?author=${encodeURIComponent(author)}&limit=5`),
   get: slug =>
     requests.get(`/articles/${slug}`),
   del: slug =>
