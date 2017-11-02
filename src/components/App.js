@@ -4,6 +4,7 @@ import Header from './Header'
 import agent from '../agent'
 
 const mapStateToProps = state => ({
+  appLoaded: state.common.appLoaded,
   appName: state.common.appName,
   redirectTo: state.common.redirectTo,
   currentUser: state.common.currentUser
@@ -25,8 +26,6 @@ class App extends Component {
     this.props.onLoad( token ? agent.Auth.current() : null, token)
   }
 
-
-
   componentWillReceiveProps(nextProps){
     if(nextProps.redirectTo){
       this.context.router.replace(nextProps.redirectTo)
@@ -35,10 +34,18 @@ class App extends Component {
   }
 
   render() {
+    if(this.props.appLoaded) {
+      return (
+        <div>
+          <Header appName={this.props.appName} currentUser={this.props.currentUser} />
+          {this.props.children}
+        </div>
+      );
+    }
+
     return (
       <div>
-      <Header appName={this.props.appName} currentUser={this.props.currentUser} />
-      {this.props.children}
+        <Header appName={this.props.appName} currentUser={this.props.currentUser} />
       </div>
     );
   }
