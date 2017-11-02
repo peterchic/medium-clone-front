@@ -45,7 +45,7 @@ const FollowUserButton = props => {
   if(props.user.following) {
     classes += ' btn-secondary'
   } else {
-    classes += 'btn-outline-secondary'
+    classes += ' btn-outline-secondary'
   }
 
   const handleClick = e => {
@@ -63,8 +63,7 @@ const FollowUserButton = props => {
       onClick={handleClick}>
       <i className="ion-plus-round"></i>
       &nbsp;
-      {props.user.following ? 'Unfollow' : 'Follow'}
-      {props.user.username}
+      {props.user.following ? 'Unfollow' : 'Follow'} {props.user.username}
     </button>
   )
 }
@@ -78,27 +77,29 @@ class Profile extends Component {
   }
 
   componentWillUnmount(){
-    this.props.unUnload()
+    this.props.onUnload()
   }
 
   renderTabs() {
-    <ul className="nav nav-pi  outline-active">
-      <li className="nav-item">
-        <Link
-          className="nav-link active"
-          to={`@${this.props.profile.username}`}>
-          My Articles
-        </Link>
-      </li>
+    return (
+      <ul className="nav nav-pills outline-active">
+        <li className="nav-item">
+          <Link
+            className="nav-link active"
+            to={`@${this.props.profile.username}`}>
+            My Articles
+          </Link>
+        </li>
 
-      <li className="nav-item">
-        <Link
-          className="nav-link"
-          to={`@${this.props.profile.username}/favorites`}>
-          Favorited Articles
-        </Link>
-      </li>
-    </ul>
+        <li className="nav-item">
+          <Link
+            className="nav-link"
+            to={`@${this.props.profile.username}/favorites`}>
+            Favorited Articles
+          </Link>
+        </li>
+      </ul>
+    )
   }
 
   render() {
@@ -108,7 +109,7 @@ class Profile extends Component {
     }
 
     const isUser = this.props.currentUser &&
-      this.props.profile.username === this.props.currentUser.username
+      profile.username === this.props.currentUser.username
 
       return (
         <div className="profile-page">
