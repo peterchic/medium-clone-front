@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
-import DeleteButton from './DeleteButton'
-import { Link } from 'react-router'
+import DeleteButton from './DeleteButton';
+import { Link } from 'react-router';
+import React from 'react';
 
 const Comment = props => {
-  const comment = props.comment
-  const show = props.currentUser && props.currentUser.username === comment.author.username
-
+  const comment = props.comment;
+  const show = props.currentUser &&
+    props.currentUser.username === comment.author.username;
   return (
     <div className="card">
       <div className="card-block">
@@ -29,7 +29,7 @@ const Comment = props => {
         <DeleteButton show={show} slug={props.slug} commentId={comment.id} />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Comment
+export default Comment;

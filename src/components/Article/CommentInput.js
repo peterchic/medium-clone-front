@@ -54,4 +54,4 @@ class CommentInput extends Component {
   }
 }
 
-export default connect(() => {()}, mapDispatchToProps)(CommentInput)
+export default connect(() => ({}), mapDispatchToProps)(CommentInput)
