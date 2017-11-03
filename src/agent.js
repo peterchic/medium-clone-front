@@ -31,7 +31,7 @@ const omitSlug = article => Object.assign({}, article, { slug: undefined })
 
 const Articles = {
   all: page =>
-    requests.get(`/articles?${limit(10, page)}`),
+    requests.get(`/articles?&${limit(10, page)}`),
   byAuthor: (author, page) =>
     requests.get(`/articles?author=${encode(author)}&${limit(5, page)}`),
   del: slug =>
@@ -46,7 +46,11 @@ const Articles = {
     requests.get(`/articles?tag=${encode(tag)}&${limit(10, page)}`),
   create: article => requests.post('/articles', {article}),
   update: article =>
-    requests.put(`/articles/${article.slug}`, { article: omitSlug(article) })
+    requests.put(`/articles/${article.slug}`, { article: omitSlug(article) }),
+  favorite: slug =>
+    requests.post(`/articles/${slug}/favorite`),
+  unfavorite: slug =>
+    requests.del(`/articles/${slug}/favorite`)
 };
 
 const Auth = {

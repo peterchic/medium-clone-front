@@ -8,6 +8,7 @@ import auth from './reducers/auth'
 import profile from './reducers/profile'
 import settings from './reducers/settings'
 import editor from './reducers/editor'
+import { createLogger } from 'redux-logger'
 
 const reducers = combineReducers({
   article,
@@ -20,7 +21,7 @@ const reducers = combineReducers({
   editor
 })
 
-const middleware = applyMiddleware(promiseMiddleware, localStorageMiddleware)
+const middleware = applyMiddleware(promiseMiddleware, localStorageMiddleware, createLogger())
 
 const store = createStore(reducers, middleware)
 

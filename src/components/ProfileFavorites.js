@@ -39,7 +39,7 @@ class ProfileFavorites extends Profile {
   renderTabs() {
     return (
       <ul className="nav nav-pills outline-active">
-        <li className="nav-items">
+        <li className="nav-item">
           <Link
             className="nav-link"
             to={`@${this.props.profile.username}`}>
@@ -47,10 +47,10 @@ class ProfileFavorites extends Profile {
           </Link>
         </li>
 
-        <li className="nav-items">
+        <li className="nav-item">
           <Link
             className="nav-link active"
-            to={`@${this.props.profile.usrname}/favorites`}>
+            to={`@${this.props.profile.username}/favorites`}>
             Favorited Articles
           </Link>
         </li>
