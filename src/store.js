@@ -7,6 +7,7 @@ import common from './reducers/common'
 import auth from './reducers/auth'
 import profile from './reducers/profile'
 import settings from './reducers/settings'
+import editor from './reducers/editor'
 
 const reducers = combineReducers({
   article,
@@ -15,7 +16,8 @@ const reducers = combineReducers({
   home,
   common,
   settings,
-  profile
+  profile,
+  editor
 })
 
 const middleware = applyMiddleware(promiseMiddleware, localStorageMiddleware)

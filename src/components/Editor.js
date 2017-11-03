@@ -9,29 +9,28 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onAddTag: () =>
-    dispatch({ type: 'ADD_TAG'}),
+    dispatch({ type: 'ADD_TAG' }),
   onLoad: payload =>
-    dispatch({ type: 'EDITOR_PAGE_LOADED', payload}),
+    dispatch({ type: 'EDITOR_PAGE_LOADED', payload }),
   onRemoveTag: tag =>
-    dispatch({ type: 'REMOVE_TAG', tag}),
+    dispatch({ type: 'REMOVE_TAG', tag }),
   onSubmit: payload =>
-    dispatch({ type: 'ARTICLE_SUBMITTED', payload}),
+    dispatch({ type: 'ARTICLE_SUBMITTED', payload }),
   onUnload: () =>
-    dispatch({ type: "EDITOR_PAGE_UNLOADED"}),
+    dispatch({ type: 'EDITOR_PAGE_UNLOADED' }),
   onUpdateField: (key, value) =>
-    dispatch({ type: 'UPDATE_FIELD_EDITOR', key, value})
-})
+    dispatch({ type: 'UPDATE_FIELD_EDITOR', key, value })
+});
 
 class Editor extends Component {
   constructor(){
     super()
 
-    const updateFieldEvent = key => e =>
-      this.props.onUpdateField(key, e.target.value)
-
+    const updateFieldEvent =
+    key => e => this.props.onUpdateField(key, e.target.value)
     this.changeTitle = updateFieldEvent('title')
     this.changeDescription = updateFieldEvent('description')
-    this.changebody = updateFieldEvent('body')
+    this.changeBody = updateFieldEvent('body')
     this.changeTagInput = updateFieldEvent('tagInput')
 
     this.watchForEnter = e => {
@@ -57,7 +56,7 @@ class Editor extends Component {
       const slug = { slug: this.props.articleSlug }
       const promise = this.props.articleSlug ?
         agent.Articles.update(Object.assign(article, slug)) :
-        agent.Article.create(article)
+        agent.Articles.create(article)
 
       this.props.onSubmit(promise)
     }
@@ -82,6 +81,91 @@ class Editor extends Component {
   componentWillUnmount(){
     this.props.onUnload()
   }
+
+  render() {
+    return (
+      <div className="editor-page">
+        <div className="container page">
+          <div className="row">
+            <div className="col-md-10 offset-md-1 col-xs-12">
+
+              <ListErrors errors={this.props.errors}></ListErrors>
+
+              <form>
+                <fieldset>
+
+                <fieldset className="form-group">
+                  <input
+                    className="form-control form-control-lg"
+                    type="text"
+                    placeholder="Article Title"
+                    value={this.props.title}
+                    onChange={this.changeTitle}
+                  />
+                </fieldset>
+
+                <fieldset className="form-group">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="What's this article about?"
+                    value={this.props.description}
+                    onChange={this.changeDescription}
+                  />
+                </fieldset>
+
+                <fieldset className="form-group">
+                  <textarea
+                    className="form-control"
+                    rows="8"
+                    placeholder="Write your article (in markdown)"
+                    value={this.props.body}
+                    onChange={this.changeBody}>
+                  </textarea>
+                </fieldset>
+
+                <fieldset className="form-group">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Enter tags"
+                    value={this.props.tagInput  }
+                    onChange={this.changeTagInput}
+                    onKeyUp={this.watchForEnter}
+                  />
+
+                  <div className="tag-list">
+                    {
+                      (this.props.tagList || []).map(tag => {
+                        return (
+                          <span className="tag-default tag-pill" key={tag}>
+                            <i className="ion-close-round"
+                              onClick={this.removeTagHandler(tag)}>
+                            </i>
+                            {tag}
+                          </span>
+                        )
+                      })
+                    }
+                  </div>
+                </fieldset>
+
+                  <button
+                    className="btn btn-lg pull-xs-right btn-primary"
+                    type="button"
+                    disabled={this.props.inProgress}
+                    onClick={this.submitForm}>
+                    Publish Article
+                  </button>
+
+                </fieldset>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
-export default(mapStateToProps, mapDispatchToProps)(Editor)
+export default connect(mapStateToProps, mapDispatchToProps)(Editor)
