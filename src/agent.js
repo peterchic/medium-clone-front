@@ -27,6 +27,7 @@ const requests = {
 
 const limit = (count, p) => `limit=${count}&offset=${p ? p * count : 0}`
 const encode = encodeURIComponent
+const omitSlug = article => Object.assign({}, article, { slug: undefined })
 
 const Articles = {
   all: page =>
@@ -42,7 +43,10 @@ const Articles = {
   get: slug =>
     requests.get(`/articles/${slug}`),
   byTag: (tag, page) =>
-    requests.get(`/articles?tag=${encode(tag)}&${limit(10, page)}`)
+    requests.get(`/articles?tag=${encode(tag)}&${limit(10, page)}`),
+  create: article => requests.post('/articles', {article}),
+  update: article =>
+    requests.put(`/articles/${article.slug}`, { article: omitSlug(article) })
 };
 
 const Auth = {
