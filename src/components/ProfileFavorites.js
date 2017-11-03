@@ -14,7 +14,8 @@ const mapDispatchToProps = dispatch => ({
     payload: agent.Profile.unfollow(username)
   }),
   onLoad: payload => dispatch ({ type: 'PROFILE_FAVORITES_PAGE_LOADED', payload}),
-  onUnload: () => dispatch({ type: 'PROFILE_FAVORITES_PAGE_UNLOADED' })
+  onUnload: () => dispatch({ type: 'PROFILE_FAVORITES_PAGE_UNLOADED' }),
+  onSetPage: (page, payload) => dispatch ({ type:'SET_PAGE', page, payload})
 })
 
 class ProfileFavorites extends Profile {
@@ -27,6 +28,12 @@ class ProfileFavorites extends Profile {
 
   componentWillUnmount(){
     this.props.onUnload()
+  }
+
+  onSetPage(page) {
+    const promise =
+      agent.Articles.favoritedBy(this.props.profile.username, page);
+    this.props.onSetPage(page, promise);
   }
 
   renderTabs() {

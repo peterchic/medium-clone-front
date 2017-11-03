@@ -20,7 +20,8 @@ const mapDispatchToProps = dispatch => ({
     payload: agent.Profile.unfollow(username)
   }),
   onLoad: payload => dispatch ({ type: 'PROFILE_PAGE_LOADED', payload}),
-  onUnload: () => dispatch({ type: 'PROFILE_PAGE_UNLOADED' })
+  onUnload: () => dispatch({ type: 'PROFILE_PAGE_UNLOADED' }),
+  onSetPage: (page, payload) => dispatch({ type: 'SET_PAGE', page, payload})
 })
 
 const EditProfileSettings = props => {
@@ -102,6 +103,11 @@ class Profile extends Component {
     )
   }
 
+  onSetPage(page){
+    const promise = agent.Articles.byAuthor(this.props.profile.username, page)
+    this.props.onSetPage(page, promise)
+  }
+
   render() {
     const profile = this.props.profile
     if(!profile) {
@@ -146,7 +152,11 @@ class Profile extends Component {
               </div>
 
               <ArticleList
-                articles={this.props.articles} />
+                articles={this.props.articles}
+                articlesCount={this.props.articlesCount}
+                currentPage={this.props.currentPage}
+                onSetPage={this.props.onSetPage}
+               />
             </div>
 
           </div>

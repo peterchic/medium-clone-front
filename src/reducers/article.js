@@ -10,7 +10,6 @@ export default (state = {}, action) => {
     case 'ARTICLE_PAGE_UNLOADED':
       return {};
     case 'ADD_COMMENT':
-    console.log('add', action);
       return {
         ...state,
         commentErrors: action.error ? action.payload.errors : null,

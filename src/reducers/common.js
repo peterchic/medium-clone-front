@@ -4,6 +4,7 @@ const defaultState = {
 };
 
 export default (state = defaultState, action) => {
+  console.log('common Red', action.payload);
   switch (action.type) {
     case 'APP_LOAD':
       return {
