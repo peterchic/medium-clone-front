@@ -19,4 +19,4 @@ var uploader = client.uploadDir({
 
 uploader.on('complete', function(){
     console.log(process.argv[2]+' uploaded to S3 bucket '+config.Bucket);
-}
+})
